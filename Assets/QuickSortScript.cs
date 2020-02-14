@@ -38,7 +38,7 @@ public class QuickSortScript : MonoBehaviour
         rightPointer = GameObject.Find("Right Pointer");
         leftPointer = GameObject.Find("Left Pointer");
         
-        StartCoroutine(Sort(Cubes, 0, Cubes.Length - 1));
+        StartCoroutine(Sort(Cubes, 0, 1, Cubes.Length - 1));
 
     }
 
@@ -47,25 +47,26 @@ public class QuickSortScript : MonoBehaviour
 
     }
   
-    IEnumerator Sort(GameObject[] Cubes, int left, int right)
+    IEnumerator Sort(GameObject[] Cubes, int pivot, int left, int right)
     {
         Debug.Log("Waiting for player to make move..");
 
         
         // if cubes are sorted needs work
-      /*  if (isSorted(Cubes) == true)
+      if (isSorted(Cubes))
         {
+            Debug.Log("Cubes are sorted");
             // Canvas finish game
 
             yield break;
-        }*/
-        pivot = Cubes[left];
+        }
+        pivot = Cubes[pivot];
        
         //pivot.GetComponent<VRTK_InteractableObject>().enabled = true;
         Color pivotColor = Color.Lerp(Color.white, Color.green, 1f);
         pivot.GetComponent<Renderer>().material.color = pivotColor;
 
-        leftCube = Cubes[left + 1];
+        leftCube = Cubes[left];
         rightCube = Cubes[right];
         Debug.Log(left);
         Debug.Log(right);
@@ -93,15 +94,15 @@ public class QuickSortScript : MonoBehaviour
         Debug.Log("pointer value =" + pVal);
         Debug.Log("left cube value =" + lpVal);
         Debug.Log("right cube value =" + rpVal);
-        if (left == right)
+        if (lpVal < pVal && rpVal < pVal)
         {
             correctMove = "move pivot cube";
         }
-        if(lpVal < pVal && rpVal > pVal)
+        else if(lpVal < pVal && rpVal > pVal)
         {
             correctMove = "shift both pointers";
         }
-        if (lpVal < pVal)
+        else if (lpVal < pVal)
         {
             correctMove = "left shift";
         }
@@ -144,8 +145,13 @@ public class QuickSortScript : MonoBehaviour
         }
         else if(correctMove.Equals("move pivot cube"))
         {
+            moveElem(Cubes, pivot, right + 1);
+            StartCoroutine(Sort(Cubes, 0, 1, left));
+            StartCoroutine(Sort(Cubes, 0, 1, left));
+
+            StartCoroutine(Sort(Cubes, left + 1, Cubes.Length-1));
             //move pivot cube and partition
-            //moveElem()
+            
         }
 
         else if (leftPointer.transform.hasChanged && correctMove.Equals("left shift"))

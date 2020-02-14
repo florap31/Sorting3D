@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Battery
+  - Cube
+  - Pointer
   layers:
   - Default
   - TransparentFX
