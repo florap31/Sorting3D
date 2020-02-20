@@ -22,18 +22,18 @@ public class QuickSortScript : MonoBehaviour
     {
         Cubes = new GameObject[NumberOfCubes];
         Cubes[0] = GameObject.Find("Cube0");
-        
+
         Cubes[1] = GameObject.Find("Cube1");
 
-       
+
         Cubes[2] = GameObject.Find("Cube2");
 
-       
+
         Cubes[3] = GameObject.Find("Cube3");
-        
+
         rightPointer = GameObject.Find("Right Pointer");
         leftPointer = GameObject.Find("Left Pointer");
-        
+
         StartCoroutine(Sort(Cubes, 0, 1, Cubes.Length - 1));
 
     }
@@ -42,13 +42,13 @@ public class QuickSortScript : MonoBehaviour
     {
 
     }
-  
-    IEnumerator Sort(GameObject[] Cubes, int pivot, int left, int right)
+
+    public IEnumerator Sort(GameObject[] Cubes, int pivot, int left, int right)
     {
         Debug.Log("Waiting for player to make move..");
 
         // if cubes are sorted needs work
-      if (isSorted(Cubes))
+        if (isSorted(Cubes))
         {
             Debug.Log("Cubes are sorted");
             // Canvas finish game
@@ -57,17 +57,17 @@ public class QuickSortScript : MonoBehaviour
             yield break;
         }
         pivotCube = Cubes[pivot];
-       leftCube = Cubes[left];
+        leftCube = Cubes[left];
         rightCube = Cubes[right];
 
         // allow objects to be interactable, test
         //pivotCube.GetComponent<VRTK_InteractableObject>().enabled = true;
         Color pivotCubeColor = Color.Lerp(Color.white, Color.green, 1f);
-        Color leftColor = Color.Lerp(Color.white, Color.magenta, 1f);
-        Color rightColor = Color.Lerp(Color.white, Color.blue, 1f);
+        Color leftCubeColor = Color.Lerp(Color.white, Color.magenta, 1f);
+        Color rightCubeColor = Color.Lerp(Color.white, Color.blue, 1f);
         pivotCube.GetComponent<Renderer>().material.color = pivotCubeColor;
-        leftCube.GetComponent<Renderer>().material.color = leftColor;
-        rightCube.GetComponent<Renderer>().material.color = rightColor;
+        leftCube.GetComponent<Renderer>().material.color = leftCubeColor;
+        rightCube.GetComponent<Renderer>().material.color = rightCubeColor;
 
         // testing purposes
         Debug.Log(left);
@@ -82,7 +82,7 @@ public class QuickSortScript : MonoBehaviour
         // set positons of right and left pointer
         rightPointer.transform.position = new Vector3(rightPosX, rightPointer.transform.position.y, rightPointer.transform.position.z);
         leftPointer.transform.position = new Vector3(leftPosX, leftPointer.transform.position.y, leftPointer.transform.position.z);
-        
+
         //left pointer
         Color leftColor = Color.Lerp(Color.white, Color.magenta, 1f);
         leftCube.GetComponent<Renderer>().material.color = leftColor;
@@ -90,7 +90,7 @@ public class QuickSortScript : MonoBehaviour
         //right pointer
         Color rightColor = Color.Lerp(Color.white, Color.blue, 1f);
         rightCube.GetComponent<Renderer>().material.color = rightColor;
-        
+
         int pVal = pivotCube.GetComponent<Value>().val;
         int rpVal = rightCube.GetComponent<Value>().val;
         int lpVal = leftCube.GetComponent<Value>().val;
@@ -101,7 +101,7 @@ public class QuickSortScript : MonoBehaviour
         {
             correctMove = "move pivotCube cube";
         }
-        else if(lpVal < pVal && rpVal > pVal)
+        else if (lpVal < pVal && rpVal > pVal)
         {
             correctMove = "shift both pointers";
         }
@@ -109,7 +109,7 @@ public class QuickSortScript : MonoBehaviour
         {
             correctMove = "left shift";
         }
-        
+
         else if (rpVal > pVal)
         {
             correctMove = "right shift";
@@ -117,68 +117,16 @@ public class QuickSortScript : MonoBehaviour
         else correctMove = "swap";
 
         Debug.Log("Correct move = " + correctMove);
-      
+
         // change to when user has clicked "continue" button on canvas to move on
 
-        // yield return new WaitUntil(() => !Mathf.Approximately(rightCube.transform.position.x, rightPosX) && 
-        // !Mathf.Approximately(leftCube.transform.position.x, leftPosX)
-        // /*|| rightPointer.transform.hasChanged || leftPointer.transform.hasChanged*/);
-        
-        // Checks if cubes were swapped
-        if ((rightCube.transform.position.x >= leftPosX - 0.1 
-            || rightCube.transform.position.x <= leftPosX + 0.1) && 
-           (leftCube.transform.position.x >= rightPosX - 0.1
-            || leftCube.transform.position.x <= rightPosX + 0.1))
-            && correctMove.Equals("swap")
-        {
-            Debug.Log("Correct move made");
-
-            //swap cubes
-            moveElem(Cubes, left, right);
-            StartCoroutine(Sort(Cubes, pivot, left+1 right-1));
-        }
-        // if user clickes "move pivotCube" button
-        else if(correctMove.Equals("move pivotCube cube"))
-        {
-            // physically move pivotCube
-             LeanTween.moveLocalX(pivotCube,
-                    rightCube, 1);
-            // move values in array
-            moveElem(Cubes, pivot, right);
-            // partition left
-            StartCoroutine(Sort(Cubes, 0, 1, left));
-
-            //partition right
-            StartCoroutine(Sort(Cubes, right + 1, right + 2, Cubes.Length -1));
-        }
-        else if(leftPointer.transform.hasChanged && 
-        rightPointer.transform.hasChanged && correctMove.Equals("shift both pointers")) {
-            StartCoroutine(Sort(Cubes, pivot, left+1 right-1));
-        }
-
-        else if (leftPointer.transform.hasChanged && correctMove.Equals("left shift"))
-        {
-           
-            StartCoroutine(Sort(Cubes,pivot, left+1, right));
-        }
-        else if (rightPointer.transform.hasChanged && correctMove.Equals("right shift"))
-        { 
-            StartCoroutine(Sort(Cubes, pivot, left, right-1));
-        }
-        else
-        {
-            Debug.Log("Incorrect move made");
-            LeanTween.moveLocalX(leftCube,
-                leftPosX, 1);
-            StartCoroutine(Sort(Cubes, pivot,left, right));
-        }
     }
 
-    bool isSorted(GameObject[] Cubes) {
-        
-        for(int i = 0; i < Cubes.Length - 2; i++)
+    public bool isSorted(GameObject[] Cubes) {
+
+        for (int i = 0; i < Cubes.Length - 2; i++)
         {
-            if(Cubes[i].GetComponent<Value>().val > Cubes[i + 1].GetComponent<Value>().val)
+            if (Cubes[i].GetComponent<Value>().val > Cubes[i + 1].GetComponent<Value>().val)
             {
                 return false;
             }
@@ -186,11 +134,64 @@ public class QuickSortScript : MonoBehaviour
         return true;
     }
 
-    void moveElem(GameObject[] Cubes, int index1, int index2)
+    public void moveElem(GameObject[] Cubes, int index1, int index2)
     {
-       GameObject temp = Cubes[index1];
-        Cubes[index1] = index2
+        GameObject temp = Cubes[index1];
+        Cubes[index1] = Cubes[index2];
         Cubes[index2] = temp;
+    }
+
+    public void continueGame(){
+
+        // Checks if cubes were swapped
+        if ((rightCube.transform.position.x >= leftPosX - 0.1
+            || rightCube.transform.position.x <= leftPosX + 0.1) &&
+           (leftCube.transform.position.x >= rightPosX - 0.1
+            || leftCube.transform.position.x <= rightPosX + 0.1)
+            && correctMove.Equals("swap"))
+        {
+            Debug.Log("Correct move made");
+
+            //swap cubes
+            moveElem(Cubes, left, right);
+            StartCoroutine(Sort(Cubes, pivot, left + 1, right - 1));
+        }
+        // if user clickes "move pivotCube" button
+        else if (correctMove.Equals("move pivotCube cube"))
+        {
+            // physically move pivotCube
+            //LeanTween.moveLocalX(pivotCube,
+            //       rightCube, 1);
+            // move values in array
+            moveElem(Cubes, pivot, right);
+            // partition left
+            StartCoroutine(Sort(Cubes, 0, 1, left));
+
+            //partition right
+            StartCoroutine(Sort(Cubes, right + 1, right + 2, Cubes.Length - 1));
+        }
+        else if (leftPointer.transform.hasChanged &&
+        rightPointer.transform.hasChanged && correctMove.Equals("shift both pointers"))
+        {
+            StartCoroutine(Sort(Cubes, pivot, left + 1, right - 1));
+        }
+
+        else if (leftPointer.transform.hasChanged && correctMove.Equals("left shift"))
+        {
+
+            StartCoroutine(Sort(Cubes, pivot, left + 1, right));
+        }
+        else if (rightPointer.transform.hasChanged && correctMove.Equals("right shift"))
+        {
+            StartCoroutine(Sort(Cubes, pivot, left, right - 1));
+        }
+        else
+        {
+            Debug.Log("Incorrect move made");
+            //LeanTween.moveLocalX(leftCube,
+            //    leftPosX, 1);
+            StartCoroutine(Sort(Cubes, pivot, left, right));
+        }
     }
 
    /* public void setPosX(, float x)
