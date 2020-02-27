@@ -17,6 +17,9 @@ public class QuickSortScript : MonoBehaviour
     string correctMove;
     GameObject rightPointer;
     GameObject leftPointer;
+    public float leftPosX { get; set; }
+    public float rightPosX { get; set; }
+    public int pivot { get; set; }
     // Start is called before the first frame update
     void Start()
     {
