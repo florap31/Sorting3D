@@ -125,7 +125,8 @@ public class QuickSortScript : MonoBehaviour
 
     }
 
-    public bool isSorted(GameObject[] Cubes) {
+    public bool isSorted(GameObject[] Cubes)
+    {
 
         for (int i = 0; i < Cubes.Length - 2; i++)
         {
@@ -144,7 +145,8 @@ public class QuickSortScript : MonoBehaviour
         Cubes[index2] = temp;
     }
 
-    public void continueGame(){
+    public void continueGame()
+    {
 
         // Checks if cubes were swapped
         if ((rightCube.transform.position.x >= leftPosX - 0.1
@@ -197,12 +199,12 @@ public class QuickSortScript : MonoBehaviour
         }
     }
 
-   /* public void setPosX(, float x)
-    {
+    /* public void setPosX(, float x)
+     {
 
-    }*/
-  
-    
+     }*/
+
+
     /*void QuickSort(GameObject[] cubes, int left, int right)
     {
         
@@ -278,24 +280,24 @@ public class QuickSortScript : MonoBehaviour
         //end partition
     } 
     */
-  /*  void initializeRandom()
-    {
-        Cubes = new GameObject[NumberOfCubes];
-        for(int i = 0; i < NumberOfCubes; i++)
-        {
-            int randomNumber = Random.Range(1, CubeHeightMax + 1);
-            GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            cube.transform.localScale = new Vector3(0.9f, randomNumber, 1);
-            cube.transform.position = new Vector3(2*i, randomNumber/2.0f + 4, 0);
+    /*  void initializeRandom()
+      {
+          Cubes = new GameObject[NumberOfCubes];
+          for(int i = 0; i < NumberOfCubes; i++)
+          {
+              int randomNumber = Random.Range(1, CubeHeightMax + 1);
+              GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+              cube.transform.localScale = new Vector3(0.9f, randomNumber, 1);
+              cube.transform.position = new Vector3(2*i, randomNumber/2.0f + 4, 0);
 
-            cube.transform.parent = this.transform;
+              cube.transform.parent = this.transform;
 
-            Cubes[i] = cube;
-        }
+              Cubes[i] = cube;
+          }
 
-        transform.position = new Vector3(-NumberOfCubes / 2f, -CubeHeightMax / 2.0f + 6, 0);
+          transform.position = new Vector3(-NumberOfCubes / 2f, -CubeHeightMax / 2.0f + 6, 0);
 
-    }*/
+      }*/
     // Update is called once per frame
-   
+
 }

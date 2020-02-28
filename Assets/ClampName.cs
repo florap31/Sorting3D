@@ -11,8 +11,7 @@ public class ClampName : MonoBehaviour
     void Update()
     {
         
-       // nameLabel = Text.Find("Text");
-       // Vector3 namePos = Camera.main.WorldToScreenPoint(this.transform.position);
-       // nameLabel.transform.position = namePos;
+        Vector3 namePos = Camera.main.WorldToScreenPoint(this.transform.position);
+        nameLabel.transform.position = namePos;
     }
 }
