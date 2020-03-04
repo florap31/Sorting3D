@@ -20,14 +20,13 @@ public class QuickSortScript : MonoBehaviour
     public float leftPosX { get; set; }
     public float rightPosX { get; set; }
     public int pivot { get; set; }
+    
     // Start is called before the first frame update
     void Start()
     {
         Cubes = new GameObject[NumberOfCubes];
         Cubes[0] = GameObject.Find("Cube0");
-
         Cubes[1] = GameObject.Find("Cube1");
-
 
         Cubes[2] = GameObject.Find("Cube2");
 
@@ -59,6 +58,7 @@ public class QuickSortScript : MonoBehaviour
 
             yield break;
         }
+        Debug.Log("values = " +pivot + " " + left + " " + right);
         pivotCube = Cubes[pivot];
         leftCube = Cubes[left];
         rightCube = Cubes[right];
@@ -130,6 +130,7 @@ public class QuickSortScript : MonoBehaviour
 
         for (int i = 0; i < Cubes.Length - 2; i++)
         {
+         
             if (Cubes[i].GetComponent<Value>().val > Cubes[i + 1].GetComponent<Value>().val)
             {
                 return false;
@@ -147,7 +148,7 @@ public class QuickSortScript : MonoBehaviour
 
     public void continueGame()
     {
-
+        Debug.Log("Continuing");
         // Checks if cubes were swapped
         if ((rightCube.transform.position.x >= leftPosX - 0.1
             || rightCube.transform.position.x <= leftPosX + 0.1) &&
